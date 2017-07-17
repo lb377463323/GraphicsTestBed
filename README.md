@@ -4,7 +4,7 @@
 
 - Camera
 	- CameraV1： 根据Camera第一版API写的
-	- CameraV2： 根据Camera第二版API写的
+	- CameraV2： 根据Camera第二版API写的（代码讲解：http://blog.csdn.net/lb377463323/article/details/52740411）
 
 - OpenGLES
 	- OpenGL ES基础篇，绘制三角形
