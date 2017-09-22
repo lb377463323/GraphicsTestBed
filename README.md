@@ -10,3 +10,7 @@
 	- [Android JNI反射调用Java构造方法、成员方法和静态方法](http://blog.csdn.net/lb377463323/article/details/75303125)
 - OpenGLES
 	- [OpenGL ES2.0入门之Android篇(一)——绘制三角形](http://blog.csdn.net/lb377463323/article/details/52136518)
+- Filter（此代码包含三个包如下）
+	- CameraV1GLSurfaceView：对应博客为 - [Android Camera使用OpenGL ES 2.0和GLSurfaceView对预览进行实时处理（黑白滤镜）](http://blog.csdn.net/lb377463323/article/details/77071054)
+	- CameraV1TextureView：对应博客为 - [Android Camera使用OpenGL ES 2.0和TextureView对预览进行实时处理（黑白滤镜）](http://blog.csdn.net/lb377463323/article/details/77096652)
+	- CameraV2GLSurfaceView：对应博客为 - [Android Camera2使用OpenGL ES 2.0和GLSurfaceView对预览进行实时处理（黑白滤镜）](http://blog.csdn.net/lb377463323/article/details/78054892)
