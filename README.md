@@ -1,6 +1,6 @@
 # GraphicsTestBed
 
-此项目为学习Android Graphics时写的各种Demo，根据目录排放如下，后面整理好会添加一些滤镜处理和OpenGLES进阶Demo。
+此项目为学习Android Graphics时写的各种Demo，根据目录排放如下，后面整理好会添加一些滤镜处理和OpenGLES进阶Demo。也欢迎大家有合适的Graphic Demo提交进来，最好带有博客讲解。
 
 - Camera
 	- CameraV1： 根据Camera第一版API写的
