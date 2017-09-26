@@ -1,5 +1,6 @@
 package com.liubing.filtertestbed;
 
+import android.content.Context;
 import android.opengl.GLES11Ext;
 
 import java.nio.ByteBuffer;
@@ -37,6 +38,7 @@ public class FilterEngine {
 
     private static FilterEngine filterEngine = null;
 
+    private Context mContext;
     private FloatBuffer mBuffer;
     private int mOESTextureId = -1;
     private int vertexShader = -1;
@@ -49,11 +51,12 @@ public class FilterEngine {
     private int uTextureMatrixLocation = -1;
     private int uTextureSamplerLocation = -1;
 
-    public FilterEngine(int OESTextureId) {
+    public FilterEngine(int OESTextureId, Context context) {
+        mContext = context;
         mOESTextureId = OESTextureId;
         mBuffer = createBuffer(vertexData);
-        vertexShader = loadShader(GL_VERTEX_SHADER, VERTEX_SHADER);
-        fragmentShader = loadShader(GL_FRAGMENT_SHADER, FRAGMENT_SHADER);
+        vertexShader = loadShader(GL_VERTEX_SHADER, Utils.readShaderFromResource(mContext, R.raw.base_vertex_shader));
+        fragmentShader = loadShader(GL_FRAGMENT_SHADER, Utils.readShaderFromResource(mContext, R.raw.base_fragment_shader));
         mShaderProgram = linkProgram(vertexShader, fragmentShader);
     }
 
@@ -80,29 +83,6 @@ public class FilterEngine {
     public static final String TEXTURE_COORD_ATTRIBUTE = "aTextureCoordinate";
     public static final String TEXTURE_MATRIX_UNIFORM = "uTextureMatrix";
     public static final String TEXTURE_SAMPLER_UNIFORM = "uTextureSampler";
-
-    private static final String VERTEX_SHADER = "" +
-            "attribute vec4 " + POSITION_ATTRIBUTE + ";\n" +
-            "uniform mat4 " + TEXTURE_MATRIX_UNIFORM + ";\n" +
-            "attribute vec4 " + TEXTURE_COORD_ATTRIBUTE + ";\n" +
-            "varying vec2 vTextureCoord;\n" +
-            "void main()\n" +
-            "{\n" +
-            "  vTextureCoord = (" + TEXTURE_MATRIX_UNIFORM + " * " + TEXTURE_COORD_ATTRIBUTE + ").xy;\n" +
-            "  gl_Position = " + POSITION_ATTRIBUTE + ";\n" +
-            "}\n";
-
-    private static final String FRAGMENT_SHADER = "" +
-            "#extension GL_OES_EGL_image_external : require\n" +
-            "precision mediump float;\n" +
-            "uniform samplerExternalOES " + TEXTURE_SAMPLER_UNIFORM + ";\n" +
-            "varying vec2 vTextureCoord;\n" +
-            "void main() \n" +
-            "{\n" +
-            "vec4 vCameraColor = texture2D(" + TEXTURE_SAMPLER_UNIFORM + ", vTextureCoord);\n" +
-            "float fGrayColor = (0.3*vCameraColor.r + 0.59*vCameraColor.g + 0.11*vCameraColor.b);\n" +
-            "  gl_FragColor = vec4(fGrayColor, fGrayColor, fGrayColor, 1.0);\n" +
-            "}\n";
 
     public FloatBuffer createBuffer(float[] vertexData) {
         FloatBuffer buffer = ByteBuffer.allocateDirect(vertexData.length * 4)

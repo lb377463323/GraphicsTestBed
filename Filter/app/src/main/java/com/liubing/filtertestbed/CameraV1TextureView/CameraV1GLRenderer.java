@@ -1,5 +1,6 @@
 package com.liubing.filtertestbed.CameraV1TextureView;
 
+import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.opengl.EGL14;
 import android.opengl.GLES20;
@@ -25,6 +26,7 @@ import javax.microedition.khronos.egl.EGLSurface;
 
 public class CameraV1GLRenderer implements SurfaceTexture.OnFrameAvailableListener {
     private static final String TAG = "Filter_GLRenderer";
+    private Context mContext;
     private HandlerThread mHandlerThread;
     private Handler mHandler;
     private TextureView mTextureView;
@@ -45,7 +47,8 @@ public class CameraV1GLRenderer implements SurfaceTexture.OnFrameAvailableListen
     private static final int MSG_DEINIT = 3;
     private SurfaceTexture mOESSurfaceTexture;
 
-    public void init(TextureView textureView, int oesTextureId) {
+    public void init(TextureView textureView, int oesTextureId, Context context) {
+        mContext = context;
         mTextureView = textureView;
         mOESTextureId = oesTextureId;
         mHandlerThread = new HandlerThread("Renderer Thread");
@@ -126,7 +129,7 @@ public class CameraV1GLRenderer implements SurfaceTexture.OnFrameAvailableListen
             throw new RuntimeException("eglMakeCurrent failed! " + mEgl.eglGetError());
         }
 
-        mFilterEngine = new FilterEngine(mOESTextureId);
+        mFilterEngine = new FilterEngine(mOESTextureId, mContext);
         mDataBuffer = mFilterEngine.getBuffer();
         mShaderProgram = mFilterEngine.getShaderProgram();
     }

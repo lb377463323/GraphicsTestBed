@@ -27,7 +27,7 @@ public class CameraV2GLSurfaceViewActivity extends Activity {
         if (!mCamera.openCamera()) {
             return;
         }
-        mCameraV2GLSurfaceView.init(mCamera, false);
+        mCameraV2GLSurfaceView.init(mCamera, false, CameraV2GLSurfaceViewActivity.this);
         setContentView(mCameraV2GLSurfaceView);
     }
 

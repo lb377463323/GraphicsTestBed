@@ -18,10 +18,10 @@ public class CameraV1GLSurfaceView extends GLSurfaceView {
         super(context);
     }
 
-    public void init(CameraV1 camera, boolean isPreviewStarted) {
+    public void init(CameraV1 camera, boolean isPreviewStarted, Context context) {
         setEGLContextClientVersion(2);
         mRenderer = new CameraV1Renderer();
-        mRenderer.init(this, camera, isPreviewStarted);
+        mRenderer.init(this, camera, isPreviewStarted, context);
         setRenderer(mRenderer);
     }
 

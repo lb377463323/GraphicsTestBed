@@ -1,5 +1,6 @@
 package com.liubing.filtertestbed.CameraV1GLSurfaceView;
 
+import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
@@ -8,7 +9,7 @@ import android.util.Log;
 
 import com.liubing.filtertestbed.FilterEngine;
 import com.liubing.filtertestbed.CameraV1;
-import com.liubing.filtertestbed.TextureUtil;
+import com.liubing.filtertestbed.Utils;
 
 import java.nio.FloatBuffer;
 
@@ -40,6 +41,7 @@ import static android.opengl.GLES20.glViewport;
 public class CameraV1Renderer implements GLSurfaceView.Renderer {
 
     private static final String TAG = "Filter_MyRenderer";
+    private Context mContext;
     private int mOESTextureId = -1;
     private SurfaceTexture mSurfaceTexture;
     private float[] transformMatrix = new float[16];
@@ -55,17 +57,17 @@ public class CameraV1Renderer implements GLSurfaceView.Renderer {
     private int uTextureSamplerLocation = -1;
     private int[] mFBOIds = new int[1];
 
-    public void init(CameraV1GLSurfaceView glSurfaceView, CameraV1 camera, boolean isPreviewStarted) {
+    public void init(CameraV1GLSurfaceView glSurfaceView, CameraV1 camera, boolean isPreviewStarted, Context context) {
+        mContext = context;
         mGLSurfaceView = glSurfaceView;
         mCamera = camera;
         bIsPreviewStarted = isPreviewStarted;
-
     }
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        mOESTextureId = TextureUtil.createOESTextureObject();
-        mFilterEngine = new FilterEngine(mOESTextureId);
+        mOESTextureId = Utils.createOESTextureObject();
+        mFilterEngine = new FilterEngine(mOESTextureId, mContext);
         mDataBuffer = mFilterEngine.getBuffer();
         mShaderProgram = mFilterEngine.getShaderProgram();
         glGenFramebuffers(1, mFBOIds, 0);

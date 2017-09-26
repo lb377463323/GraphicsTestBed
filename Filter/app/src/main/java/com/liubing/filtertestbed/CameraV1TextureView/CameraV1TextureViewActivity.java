@@ -12,7 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.liubing.filtertestbed.CameraV1;
-import com.liubing.filtertestbed.TextureUtil;
+import com.liubing.filtertestbed.Utils;
 
 /**
  * Created by lb6905 on 2017/6/28.
@@ -47,8 +47,8 @@ public class CameraV1TextureViewActivity extends Activity {
     public TextureView.SurfaceTextureListener mTextureListener = new TextureView.SurfaceTextureListener() {
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-            mOESTextureId = TextureUtil.createOESTextureObject();
-            mRenderer.init(mTextureView, mOESTextureId);
+            mOESTextureId = Utils.createOESTextureObject();
+            mRenderer.init(mTextureView, mOESTextureId, CameraV1TextureViewActivity.this);
             mOESSurfaceTexture = mRenderer.initOESTexture();
 
             mCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;

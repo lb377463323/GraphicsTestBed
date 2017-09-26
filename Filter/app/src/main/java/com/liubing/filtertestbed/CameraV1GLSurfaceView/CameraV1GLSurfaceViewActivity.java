@@ -30,7 +30,7 @@ public class CameraV1GLSurfaceViewActivity extends Activity {
         if (!mCamera.openCamera(dm.widthPixels, dm.heightPixels, mCameraId)) {
             return;
         }
-        mGLSurfaceView.init(mCamera, false);
+        mGLSurfaceView.init(mCamera, false, CameraV1GLSurfaceViewActivity.this);
         setContentView(mGLSurfaceView);
     }
 
