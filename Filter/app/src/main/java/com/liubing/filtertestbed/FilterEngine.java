@@ -121,7 +121,7 @@ public class FilterEngine {
         uTextureMatrixLocation = glGetUniformLocation(mShaderProgram, FilterEngine.TEXTURE_MATRIX_UNIFORM);
         uTextureSamplerLocation = glGetUniformLocation(mShaderProgram, FilterEngine.TEXTURE_SAMPLER_UNIFORM);
 
-        glActiveTexture(GL_TEXTURE_EXTERNAL_OES);
+        glActiveTexture(GLES20.GL_TEXTURE0);
         glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, mOESTextureId);
         glUniform1i(uTextureSamplerLocation, 0);
         glUniformMatrix4fv(uTextureMatrixLocation, 1, false, transformMatrix, 0);
