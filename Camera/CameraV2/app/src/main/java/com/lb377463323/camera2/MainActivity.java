@@ -23,6 +23,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
@@ -44,7 +45,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
     private static final SparseIntArray ORIENTATION = new SparseIntArray();
 
     static {
@@ -75,17 +76,18 @@ public class MainActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.activity_main);
-        mTextureView = (TextureView) findViewById(R.id.textureView);
+        this.mTextureView = (TextureView) findViewById(R.id.textureView);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        startCameraThread();
-        if (!mTextureView.isAvailable()) {
-            mTextureView.setSurfaceTextureListener(mTextureListener);
+        this.startCameraThread();
+        if (!this.mTextureView.isAvailable()) {
+            // 设置监听SurefaceTexture的事件
+            this.mTextureView.setSurfaceTextureListener(this.mTextureListener);
         } else {
-            startPreview();
+           this.startPreview();
         }
     }
 
@@ -182,9 +184,12 @@ public class MainActivity extends Activity {
         CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         try {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                return;
+//                return;
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CALL_PHONE}, 1);
+            } else {
+                manager.openCamera(mCameraId, mStateCallback, mCameraHandler);
             }
-            manager.openCamera(mCameraId, mStateCallback, mCameraHandler);
+//            manager.openCamera(mCameraId, mStateCallback, mCameraHandler);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
@@ -359,6 +364,24 @@ public class MainActivity extends Activity {
                     }
                 }
             }
+        }
+    }
+
+
+
+    // 向用户申请授权， 授权的结果封装在grantResults中。
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case 1:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    this.openCamera();
+                } else {
+                    Toast.makeText(this, "You denied the permission", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                break;
         }
     }
 }
